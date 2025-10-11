@@ -1,18 +1,6 @@
-// src/api/common.type.ts
+// src/api/pokemon.type.ts
 
-export interface NamedAPIResource {
-  name: string;
-  url: string;
-}
-
-export interface Name {
-  name: string;
-  language: NamedAPIResource;
-}
-
-export interface APIResource {
-  url: string;
-}
+import type { Name, NamedAPIResource } from "./common.type";
 
 export interface PokemonSprites {
   front_default: string | null;
@@ -60,11 +48,6 @@ export interface PokemonStat {
   stat: NamedAPIResource;
   effort: number;
   base_stat: number;
-}
-
-export interface PokemonType {
-  slot: number;
-  type: NamedAPIResource;
 }
 
 export interface FlavorTextEntry {
@@ -123,10 +106,6 @@ export interface Type {
   moves: NamedAPIResource[];
 }
 
-// 他のタイプ関連の型も同様に定義
-// src/api/pokemon.ts
-import { API_BASE_URL } from "../config";
-
 export interface PokemonListResult {
   count: number;
   next: string | null;
@@ -136,17 +115,3 @@ export interface PokemonListResult {
     url: string;
   }[];
 }
-
-export const fetchPokemonList = async (
-  offset: number = 20,
-  limit: number = 20
-): Promise<PokemonListResult> => {
-  const response = await fetch(
-    `${API_BASE_URL}/pokemon?offset=${offset}&limit=${limit}`
-  );
-  if (!response.ok) {
-    throw new Error("ポケモン一覧の取得に失敗しました");
-  }
-  const data = await response.json();
-  return data;
-};
